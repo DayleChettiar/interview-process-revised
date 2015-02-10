@@ -52,7 +52,7 @@ public class Hello implements EntryPoint {
     final Label countCallLabel = new Label();
     final Button countCallButton = new Button("Count Calls");
 	
-    
+    Integer numberCalls = 0;
     /*
      * UI for database calls
      * */
@@ -90,7 +90,8 @@ public class Hello implements EntryPoint {
 		
 	    nameField.setText("Gwt User");
         // We can add style names to widgets
-        sendButton.addStyleName("sendButton");
+        sendButton.setStyleName("red");
+        
         
         // Focus the cursor on the name field when the app loads
         nameField.setFocus(true);
@@ -183,6 +184,21 @@ public class Hello implements EntryPoint {
         sendButton.addClickHandler(handler);
         nameField.addKeyUpHandler(handler);
 
+        clearPersonButton.addClickHandler(new ClickHandler() {
+        	public void onClick(ClickEvent event) {
+        		personId.setText("");
+        		personName.setText("");
+        	}
+        });
+        
+        countCallButton.addClickHandler(new ClickHandler() {
+		@Override
+			public void onClick(ClickEvent event) {
+				String text = "Number of call message successfully sent to the server: " + numberCalls.toString();
+				countCallLabel.setText(text);
+			}
+		});
+        
         /* Layout for person information*/
         FlexTable layout = new FlexTable();
         layout.setCellSpacing(6);
@@ -196,9 +212,12 @@ public class Hello implements EntryPoint {
         layout.setWidget(2, 1, personName);
         layout.setWidget(3, 0, getPersonButton);
         layout.setWidget(3, 1, clearPersonButton);
+        
         personPanel.setWidget(layout);
 
         setupPersonSection();
+        
+        
         
         RootPanel.get("personContainer").add(personPanel);
 		
